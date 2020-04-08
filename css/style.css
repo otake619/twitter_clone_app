@@ -1,0 +1,41 @@
+#footer{
+  text-align: center;
+}
+
+#header{
+  text-align: center;
+}
+
+p{
+  font-family: 'M PLUS 1p', sans-serif;
+  display: inline;
+}
+
+a{
+  font-family: 'M PLUS 1p', sans-serif;
+}
+
+h2{
+  font-family: 'M PLUS 1p', sans-serif;
+  text-align: center;
+}
+
+.home{
+  color:#ff9872;
+}
+
+.search{
+  color:#60eeff;
+}
+
+.notice{
+  color:#FFFF00;
+}
+
+.post{
+  color:#CC0000;
+}
+
+i{
+  margin-right: 50px;
+}
