@@ -18,32 +18,25 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
+        <div class="col-12">
+          <div class="text-center">
+            <h2>検索語句を入力して下さい</h2>
+            <form action="search_result.php" method="post">
+              <div class="mb-3">
+                <label for="validationTextarea">テキストエリア</label>
+                <textarea class="form-control" id="validationTextarea" rows="8" name="search_word" required></textarea>
+                <div class="invalid-feedback">
+                  テキストエリアにメッセージを入力してください。
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-12">
+                  <button type="submit" class="btn btn-outline-primary btn-block">検索</button>
+                </div>
+              </div>
+            </form>
+            <a class="btn btn-outline-secondary btn-block" href="index.php">Homeに戻る</a>
           </div>
-        </div>
-        <div class="col-6">
-          <h2>検索したい語句を入力してください。</h2>
-          <form action="search_result.php" method="post">
-            <div class="mb-3">
-              <label for="validationTextarea">テキストエリア</label>
-              <textarea class="form-control" id="validationTextarea" rows="8" name="search_word" required></textarea>
-              <div class="invalid-feedback">
-                テキストエリアにメッセージを入力してください。
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="offset-sm-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">検索</button>
-              </div>
-            </div>
-          </form>
-          <a href="index.php">Homeに戻る</a>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
         </div>
       </div>
     </div>

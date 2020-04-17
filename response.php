@@ -19,15 +19,9 @@
     <title>返信投稿</title>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
+        <div class="col-12">
           <h2><?php
           //返信したいtweetの文章を表示
           $sql = 'SELECT * FROM tweets WHERE id = :id';
@@ -47,16 +41,13 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="offset-sm-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">返信</button>
+              <div class="col-12">
+                <button class="btn btn-outline-primary btn-block" type="submit" class="btn btn-primary">返信</button>
               </div>
             </div>
             <input type="hidden" name="original_tweet_id" value=
             "<?php echo htmlspecialchars($tweet_id, ENT_QUOTES, "UTF-8"); ?>">
           </form>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
         </div>
       </div>
     </div>

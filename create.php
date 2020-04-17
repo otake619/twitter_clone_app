@@ -13,33 +13,24 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
-          <form action="insert_tweet.php" method="post">
+        <div class="col-12">
+          <form action="read.php" method="post">
             <div class="mb-3">
-              <label for="validationTextarea">テキストエリア</label>
+              <label for="validationTextarea"><p>テキストエリア</p></label>
               <textarea class="form-control" id="validationTextarea" rows="8" placeholder="返信を入力してください" name="message" required></textarea>
               <div class="invalid-feedback">
                 テキストエリアにメッセージを入力してください。
               </div>
             </div>
             <div class="form-group row">
-              <div class="offset-sm-2 col-sm-10">
+              <div class="col-12">
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">送信</button>
+                  <button class="btn btn-outline-primary btn-block" type="submit" class="btn btn-primary">送信</button>
+                  <a class="btn btn-outline-secondary btn-block" href="index.php">戻る</a>
                 </div>
               </div>
             </div>
           </form>
-          <a href="index.php">戻る</a>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
         </div>
       </div>
     </div>

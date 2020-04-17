@@ -1,29 +1,43 @@
 <?php
 //.envファイルの読み込み
 // require_once 'config.php';
+//環境設定ファイルの読み込み
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 class dbconnect{
-  //定数の宣言
-  const DB_USERNAME = 'root';
-  const DB_PASSWORD = '';
-  const HOST = 'localhost';
-  const UTF = 'utf8';
-  const DB_NAME = 'twitter_clone';
+  public $db_name;
+  public $db_username;
+  public $db_password;
+  public $host;
+  public $utf;
+
+  public function __construct() {
+    $this->db_name = $_ENV['DB_NAME'];
+    $this->db_username = $_ENV['DB_USERNAME'];
+    $this->db_password = $_ENV['DB_PASSWORD'];
+    $this->host = $_ENV['HOST'];
+    $this->utf = $_ENV['UTF'];
+  }
   //データベースに接続する関数
-  function pdo(){
-    $dsn="mysql:dbname=".self::DB_NAME.";host=".self::HOST.";charset=".self::UTF;
-    $user=self::DB_USERNAME;
-    $pass=self::DB_PASSWORD;
+  public function pdo(){
+    // $dsn="mysql:dbname=".self::$this-db_name.";host=".self::HOST.";charset=".self::UTF;
+    $dsn = "mysql:host=$this->host;dbname=$this->db_name";
+    $user=$this->db_username;
+    $pass=$this->db_password;
+    $utf=$this->utf;
+
     try {
-      $pdo=new PDO($dsn,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES '.SELF::UTF));
+      $pdo=new PDO($dsn,$user,$pass);
     } catch (Exception $e) {
       echo 'error'.$e->getMessage();
       die();
     }
     //エラー表示
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+    // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
     return $pdo;
-  }
+    }
 
   //SELECT文のときに使用する関数。
   function select($sql){
@@ -205,5 +219,25 @@ class dbconnect{
     return $stmt;
   }
 
+  function delete_tweet_db($sql,$user_id){
+    $hoge=$this->pdo();
+    $stmt=$hoge->prepare($sql);
+    $stmt->execute(array(':user_id'=>$user_id));
+    return $stmt;
+  }
+
+  function delete_reply_db($sql,$user_id){
+    $hoge=$this->pdo();
+    $stmt=$hoge->prepare($sql);
+    $stmt->execute(array(':reply_user'=>$user_id));
+    return $stmt;
+  }
+
+  function delete_account_db($sql,$email,$password){
+    $hoge=$this->pdo();
+    $stmt=$hoge->prepare($sql);
+    $stmt->execute(array(':email'=>$email,':password'=>$password));
+    return $stmt;
+  }
 }
 ?>

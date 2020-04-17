@@ -38,18 +38,9 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
+        <div class="col-12">
           <?php echo display_result();?>
-          <a href="input_search.php">検索画面に戻る</a>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト用の余白 -->
+          <a class="btn btn-outline-primary btn-block" href="search_input.php">検索画面に戻る</a>
         </div>
       </div>
     </div>

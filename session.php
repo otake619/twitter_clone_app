@@ -40,7 +40,7 @@ if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
         header("Location:index.php");
       }else{
         //ログイン失敗
-        echo 'パスワードおよびユーザー名が間違っています。<br>';
+        echo 'パスワードおよびメールアドレスが間違っています。<br>';
         echo '<a href="login.php">戻る</a>';
       }
     ?></p>

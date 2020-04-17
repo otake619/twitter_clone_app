@@ -1,3 +1,9 @@
-﻿#Bootstrap4に関するファイルはアップしない
-js/
+﻿#.envは除く
+.env
+#自分で開発したファイル以外は除く
 css/
+js/
+image/
+vendor/
+composer.json
+composer.lock

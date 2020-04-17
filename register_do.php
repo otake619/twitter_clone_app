@@ -24,106 +24,100 @@ if ($_POST['csrf_token'] === $_SESSION['csrf_token']) {
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 bg-primary">
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
-          <?php
-          //データベースに接続する
-          require('dbconnect.php');
-          $obj = new dbconnect();
-          $username = $_POST['username'];
-          $email = $_POST['email'];
-          $password = $_POST['password'];
-          $input_check = true;
-          /*ログインエラーが発生した場合の
-          シチュエーションによる場合分けの変数*/
-          $error_case = 0;
-          //$error_case = 0 の場合は何もしない（ログイン）
-          /*
-          ログイン成功->0
-          パスワード間違い->1
-          メールアドレス間違い->2
-          */
-          $error_case = 0;
+        <div class="col-12">
+          <div class="text-center">
+            <?php
+            //データベースに接続する
+            require('dbconnect.php');
+            $obj = new dbconnect();
+            $username = $_POST['username'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $input_check = true;
+            /*ログインエラーが発生した場合の
+            シチュエーションによる場合分けの変数*/
+            $error_case = 0;
+            //$error_case = 0 の場合は何もしない（ログイン）
+            /*
+            ログイン成功->0
+            パスワード間違い->1
+            メールアドレス間違い->2
+            */
+            $error_case = 0;
 
-          //$input_check=trueの場合はチェックする。
-          if($input_check == true){
-            //パスワードのチェック
-            if(preg_match("/^[0-9]{4}+$/",$password)){
-              //ログインする
-              //SESSIONへのユーザー情報の登録とデータベースへのINSERTを行う
-              $sql = "SELECT * FROM users WHERE email = :email";
-              $count_account = $obj->verify_account($sql,$email);
-              if($count >= 1){
-                $input_check = false;
-                $error_case = 2;
-                login_status($error_case);
-              }
-
-              //$input_check=trueの場合にINSERTする。
-              if($input_check == true){
-                //INSERTする。
-                $sql = 'INSERT INTO users(name,email,password,created_at) VALUES (:name,:email,:password,NOW())';
-                $register_do = $obj->register_do($sql,$username,$email,$password);
-                $error_case = 0;
-                login_status($error_case);
-                //セッション開始
-                session_start();
-                $_SESSION['name'] = $username;
-                $_SESSION['email'] = $email;
-                $_SESSION['password'] = $password;
-
-                //$_SESSION['user_id']にログインしているアカウントのidを代入
-                $sql = "SELECT * FROM users WHERE email = :email AND name = :name";
-                $get_this_id = $obj->get_this_id($sql,$email,$username);
-                foreach ($get_this_id as $item) {
-                  $_SESSION['user_id'] = $item['id'];
+            //$input_check=trueの場合はチェックする。
+            if($input_check == true){
+              //パスワードのチェック
+              if(preg_match("/^[0-9]{4}+$/",$password)){
+                //ログインする
+                //SESSIONへのユーザー情報の登録とデータベースへのINSERTを行う
+                $sql = "SELECT * FROM users WHERE email = :email";
+                $account = $obj->verify_account($sql,$email);
+                if($account >= 1){
+                  $input_check = false;
+                  $error_case = 2;
+                  login_status($error_case,$username,$email);
                 }
-                //index.phpに遷移
-                header('Location:index.php');
+
+                //$input_check=trueの場合にINSERTする。
+                if($input_check == true){
+                  //INSERTする。
+                  $sql = 'INSERT INTO users(name,email,password,created_at) VALUES (:name,:email,:password,NOW())';
+                  $register_do = $obj->register_do($sql,$username,$email,$password);
+                  //セッション開始
+                  $_SESSION['name'] = $username;
+                  $_SESSION['email'] = $email;
+                  $_SESSION['password'] = $password;
+
+                  //$_SESSION['user_id']にログインしているアカウントのidを代入
+                  $sql = "SELECT * FROM users WHERE email = :email AND name = :name";
+                  $get_this_id = $obj->get_this_id($sql,$email,$username);
+                  foreach ($get_this_id as $item) {
+                    $_SESSION['user_id'] = $item['id'];
+                  }
+                  //index.phpに遷移
+                  $error_case = 0;
+                  echo login_status($error_case,$username,$email);
+                }else{
+                  //何もデータベースに挿入しない
+                  //ログイン失敗のため
+                }
+
               }else{
-                //何もデータベースに挿入しない
-                //ログイン失敗のため
+                //パスワードの入力ミス
+                $error_case = 1;
+                echo login_status($error_case,$username,$email);
               }
-
-            }else{
-              //パスワードの入力ミス
-              $error_case = 1;
             }
-          }
 
-          function login_status($error_case){
-            switch ($error_case) {
-              //ログイン成功のため、登録したname,email,passwordを表示
-              case 0:
-              echo 'ユーザー名：'.$username.'<br>';
-              echo 'メールアドレス：'.$email.'<br>';
-              echo 'パスワード：****<br>';
-              echo 'にて登録完了しました。';
-                break;
-              //passwordの入力ミス
-              case 1:
-              echo 'パスワードは4桁の半角数字で入力してください。<br>';
-              echo '<a href="register.php">戻る</a>';
-                break;
-              //emailの入力ミス
-              case 2:
-              echo 'メールアドレス'.$email.'は既に登録されています。<br>';
-              echo '<a href="register.php">戻る</a>';
-                break;
-              //どれにも当てはまらないエラーの場合
-              default:
-                header('Location:register.php');
-                break;
+            function login_status($error_case,$username,$email){
+              switch ($error_case) {
+                //ログイン成功のため、登録したname,email,passwordを表示
+                case 0:
+                echo 'ユーザー名：'.$username.'<br>';
+                echo 'メールアドレス：'.$email.'<br>';
+                echo 'パスワード：****<br>';
+                echo 'にて登録完了しました。<br>';
+                echo '<a href="index.php" class="btn btn-outline-primary">メイン画面へ</a>';
+                  break;
+                //passwordの入力ミス
+                case 1:
+                echo 'パスワードは4桁の半角数字で入力してください。<br>';
+                echo '<a href="register.php" class="btn btn-outline-primary">戻る</a>';
+                  break;
+                //emailの入力ミス
+                case 2:
+                echo 'メールアドレス'.$email.'は既に登録されています。<br>';
+                echo '<a href="register.php" class="btn btn-outline-primary">戻る</a>';
+                  break;
+                //どれにも当てはまらないエラーの場合
+                default:
+                  header('Location:register.php');
+                  break;
+              }
             }
-          }
-          ?>
-        </div>
-        <div class="col-3 bg-primary">
-          <!-- レイアウト用の余白 -->
+            ?>
+          </div>
         </div>
       </div>
     </div>

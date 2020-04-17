@@ -20,49 +20,39 @@ $_SESSION['csrf_token'] = $csrf_token;
   </head>
   <body>
     <section id="login_form">
-      <div class="container-fluid">
+      <div class="container">
         <div class="row">
-          <div class="col-3 bg-primary">
-            <div style="height: 1000px;">
-              <!-- レイアウト用の余白 -->
-            </div>
-          </div>
-          <div class="col-6">
+          <div class="col-12">
             <div class="text-center">
-              <h2>ユーザー情報を入力してください</h2>
+              <h2>ユーザー情報を入力して下さい</h2>
             </div>
-            <form action="login_exec.php" method="post">
+            <form action="session.php" method="post">
               <div class="form-group row">
-                <label for="inputName" class="col-sm-2 col-form-label">ユーザー名</label>
-                <div class="col-sm-10">
+                <label for="inputName" class="col-sm-12 col-md-2 col-form-label"><p>ユーザー名</p></label>
+                <div class="col-sm-12 col-md-10">
                   <input type="text" class="form-control" name="username" id="inputName">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputEmail" class="col-sm-2 col-form-label">Eメール</label>
-                <div class="col-sm-10">
+                <label for="inputEmail" class="col-sm-12 col-md-2 col-form-label"><p>Eメール</p></label>
+                <div class="col-sm-12 col-md-10">
                   <input type="email" class="form-control" id="inputEmail" name="email">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">パスワード</label>
-                <div class="col-sm-10">
+                <label for="inputPassword" class="col-sm-12 col-md-2 col-form-label"><p>パスワード</p></label>
+                <div class="col-sm-12 col-md-10">
                   <input type="password" class="form-control" id="inputPassword" placeholder="4桁の半角数字" name="password">
                 </div>
               </div>
               <div class="form-group row">
-                <div class="offset-sm-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary">ログイン</button>
+                <div class="col-sm-12 offset-md-2 col-md-10">
+                  <button type="submit" class="btn btn-outline-primary btn-block"><p>ログイン</p></button>
+                  <a class="btn btn-outline-secondary btn-block" href="register.php">新規登録はこちら</a>
                 </div>
               </div>
               <input type='hidden' name="csrf_token" value="<?=$csrf_token?>">
             </form>
-            <div class="text-center">
-              <a href="register.php">新規登録はこちら</a>
-            </div>
-          </div>
-          <div class="col-3 bg-primary">
-            <!-- レイアウト用の余白 -->
           </div>
         </div>
       </div>

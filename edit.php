@@ -17,15 +17,9 @@
     <title>編集画面</title>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
+        <div class="col-12">
           <div class="text-center">
             <h2>変更内容を入力してください</h2>
           </div>
@@ -38,19 +32,16 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="offset-sm-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">変更</button>
+              <div class="col-12">
+                <button type="submit" class="btn btn-outline-primary btn-block">変更</button>
               </div>
             </div>
             <input type="hidden" name="id" value=
             "<?php echo htmlspecialchars($edit_id, ENT_QUOTES, "UTF-8"); ?>">
             <div class="text-center">
-              <a href="index.php">Homeに戻る</a>
+              <a class="btn btn-outline-secondary btn-block" href="index.php">Homeに戻る</a>
             </div>
           </form>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
         </div>
       </div>
     </div>

@@ -16,7 +16,11 @@
     $get_following_id = $obj->get_following_id($sql,$self_id);
     foreach ($get_following_id as $item) {
       $get_following_id = $item['following_id'];
-      echo htmlspecialchars(convert_followingid_name($get_following_id),ENT_QUOTES, "UTF-8").'<br>';
+      if(convert_followedid_name($get_following_id) != null){
+        echo htmlspecialchars(convert_followingid_name($get_following_id),ENT_QUOTES, "UTF-8").'<br>';
+      }else{
+        echo '退会したアカウント<br>';
+      }
     }
   }
 
@@ -41,7 +45,11 @@
     $get_followed_id = $obj->get_followed_id($sql,$self_id);
     foreach ($get_followed_id as $item) {
       $get_followed_id = $item['user_id'];
-      echo htmlspecialchars(convert_followedid_name($get_followed_id),ENT_QUOTES, "UTF-8").'<br>';
+      if(convert_followedid_name($get_followed_id) != null){
+        echo htmlspecialchars(convert_followedid_name($get_followed_id),ENT_QUOTES, "UTF-8").'<br>';
+      }else{
+        echo '退会したアカウント<br>';
+      }
     }
   }
   /*現在ログインしているアカウントをフォローしている
@@ -72,27 +80,20 @@
   <body>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
-          <p>フォローリスト</p><br>
-          <p><?php
-            echo display_following_name($self_id);
-           ?></p>
-          <p>フォロワーリスト</p><br>
-          <p><?php
-            echo display_followed_name();
-           ?></p>
-           <div class="text-center">
-             <a href="index.php">Homeに戻る</a>
+        <div class="col-12">
+          <div class="text-center">
+            <p>フォローリスト</p><br>
+            <p><?php
+              echo display_following_name($self_id);
+             ?></p><br>
+            <p>フォロワーリスト</p><br>
+            <p><?php
+              echo display_followed_name();
+             ?></p>
            </div>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト用の余白 -->
+           <div class="text-center">
+             <br><a class="btn btn-outline-primary btn-lg" href="index.php">Homeに戻る</a>
+           </div>
         </div>
       </div>
     </div>

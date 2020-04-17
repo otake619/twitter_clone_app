@@ -20,7 +20,11 @@
     $sql = "SELECT * FROM notice WHERE user_id != :user_id AND reply_check = true AND reply_user = :reply_user";
     $get_reply_id = $obj->get_reply_id($sql,$my_id);
     foreach ($get_reply_id as $item) {
-      echo htmlspecialchars(id_convert_name($item['user_id']), ENT_QUOTES, "UTF-8").'さんからリプライがありました。<br>';
+      if(id_convert_name($item['user_id']) != null){
+        echo htmlspecialchars(id_convert_name($item['user_id']), ENT_QUOTES, "UTF-8").'さんからリプライがありました。<br>';
+      }else{
+        echo '【退会したアカウント】からリプライがありました。<br>';
+      }
     }
   }
   //フォローしてきたidを取得
@@ -29,7 +33,11 @@
     $sql = "SELECT * FROM notice WHERE user_id != :user_id AND follow_check = true AND following_id = :following_id";
     $get_follow_id = $obj->get_follow_id($sql,$my_id);
     foreach($get_follow_id as $item){
-      echo htmlspecialchars(id_convert_name($item['user_id']), ENT_QUOTES, "UTF-8").'さんからフォローされました。<br>';
+      if(id_convert_name($item['user_id']) != null){
+        echo htmlspecialchars(id_convert_name($item['user_id']), ENT_QUOTES, "UTF-8").'さんからフォローされました。<br>';
+      }else{
+        echo '【退会したアカウント】からフォローされました。<br>';
+      }
     }
   }
   //idをアカウント名に変換する関数
@@ -55,46 +63,38 @@
     <title>通知確認</title>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
-          <div style="height: 1000px;">
-            <!-- レイアウト用の余白 -->
-          </div>
-        </div>
-        <div class="col-6">
-          <h2><?php
-            $display_notice_number = count_notice($user_id);
-            if($display_notice_number == 0){
-              echo '最新の通知はありません。';
-            }else{
-              echo htmlspecialchars($display_notice_number, ENT_QUOTES, "UTF-8").'件の新規通知があります。';
-            }
-           ?></h2>
-          <p>新規通知</p><br>
-          <p><?php
-              //新規リプライが存在する場合
-              if(empty(notice_reply($user_id))){
-              //処理を実行する
+        <div class="col-12">
+          <div class="text-center">
+            <h2><?php
+              $display_notice_number = count_notice($user_id);
+              if($display_notice_number == 0){
+                echo '最新の通知はありません。';
               }else{
-                //何もしない。
+                echo htmlspecialchars($display_notice_number, ENT_QUOTES, "UTF-8").'件の新規通知があります。';
               }
-           ?></p>
-           <p><?php
-               //新規リプライが存在する場合
-               if(empty(notice_follow($user_id))){
-                 //処理を実行する
-               }else{
-                 //何もしない。
-               }
-            ?></p>
-          <a href="notice_done.php">チェック済みにする</a>
-          <p>|</p>
-          <a href="index.php">Homeに戻る</a>
-        </div>
-        <div class="col-3 bg-primary text-white">
-          <!-- レイアウト調整の余白 -->
+             ?></h2>
+            <p>新規通知</p><br>
+            <p><?php
+                //新規リプライが存在する場合
+                if(empty(notice_reply($user_id))){
+                //処理を実行する
+                }else{
+                  //何もしない。
+                }
+             ?></p>
+             <p><?php
+                 //新規リプライが存在する場合
+                 if(empty(notice_follow($user_id))){
+                   //処理を実行する
+                 }else{
+                   //何もしない。
+                 }
+              ?></p>
+            <a class="btn btn-outline-info btn-block" href="notice_done.php">チェック済みにする</a>
+            <a class="btn btn-outline-primary btn-block" href="index.php">Homeに戻る</a>
+          </div>
         </div>
       </div>
     </div>
